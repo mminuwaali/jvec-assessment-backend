@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { WhereOptions } from 'sequelize';
+import { Contact } from './entities/contact.entity';
 import { CreateContactDto } from './dto/create-contact.dto';
 import { UpdateContactDto } from './dto/update-contact.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class ContactService {
-  create(createContactDto: CreateContactDto) {
-    return 'This action adds a new contact';
+  async create(createContactDto: CreateContactDto, userId: number) {
+    let contact = await Contact.create({ ...createContactDto, userId });
+    return contact.toJSON();
   }
 
-  findAll() {
-    return `This action returns all contact`;
+  async findAll(userId: number) {
+    return await Contact.findAll({ where: { userId } });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} contact`;
+  async findOne(id: number, userId: number) {
+    let contact = await this.findContact({ id, userId });
+    return contact.toJSON();
   }
 
-  update(id: number, updateContactDto: UpdateContactDto) {
-    return `This action updates a #${id} contact`;
+  async remove(id: number, userId: number) {
+    let contact = await this.findContact({ id, userId });
+    contact.destroy();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} contact`;
+  async update(id: number, updateContactDto: UpdateContactDto, userId: number) {
+    let contact = await this.findContact({ id, userId });
+    contact = await contact.update(updateContactDto);
+
+    return contact.toJSON();
+  }
+
+  private async findContact(where: WhereOptions<Contact>) {
+    let contact = await Contact.findOne({ where });
+    if (!contact) throw new NotFoundException('contact with the given id not found');
+
+    return contact;
   }
 }
