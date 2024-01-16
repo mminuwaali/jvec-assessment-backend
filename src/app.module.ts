@@ -3,6 +3,7 @@ import { JWTModule } from './jwt.module';
 import { DatabaseModule } from './db.module';
 import { AccountModule } from './account/account.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   controllers: [],
@@ -12,6 +13,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     AccountModule,
     DatabaseModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    ContactModule,
   ],
 })
 export class AppModule { }
