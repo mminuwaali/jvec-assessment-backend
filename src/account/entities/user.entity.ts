@@ -52,4 +52,10 @@ export class User extends Model<User> {
     static async encryptPassword(user: User) {
         user.password = await hashPassword(user.password);
     };
+
+    @BeforeCreate
+    static async setEmailAndUsernameToLowerCase(user: User) {
+        user.email = user.email?.toLowerCase() || '';
+        user.username = user.username?.toLowerCase() || '';
+    };
 };
