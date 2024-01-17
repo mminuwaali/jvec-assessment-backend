@@ -3,25 +3,25 @@ import { Model, Table, Column, DataType, BeforeCreate, AfterCreate } from 'seque
 
 @Table
 export class User extends Model<User> {
-    @Column
+    @Column(DataType.STRING)
     email: string;
 
-    @Column
+    @Column(DataType.STRING)
     profile?: string;
 
-    @Column
+    @Column(DataType.STRING)
     firstName: string;
 
-    @Column
+    @Column(DataType.STRING)
     lastName: string;
 
-    @Column
+    @Column(DataType.STRING)
     username: string;
 
-    @Column
+    @Column(DataType.STRING)
     password: string;
 
-    @Column
+    @Column(DataType.STRING)
     phoneNumber: string;
 
     // methods
