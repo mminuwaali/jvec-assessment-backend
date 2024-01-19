@@ -8,6 +8,7 @@ async function bootstrap() {
   const port = process.env.PORT || 3000;
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors();
 
   const config = new DocumentBuilder()
     .setDescription('The cats API description')
@@ -18,7 +19,7 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  console.log(`app is listening on port: ${port}`);
+
   await app.listen(port);
 }
 bootstrap();
