@@ -4,6 +4,7 @@ import { LoginDTO } from './dto/login.dto';
 import { User } from './entities/user.entity';
 import { RegisterDTO } from './dto/register.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { comparePasswords, hashPassword } from 'src/app.utilities';
 
 @Injectable()
 export class AccountService {
@@ -13,7 +14,6 @@ export class AccountService {
         // converts the data to lowercase before validation
         email = email.toLowerCase(); username = username.toLowerCase();
 
-        console.log(email, username);
 
         // find user by email or username
         let user = await User.findOne({ where: { [Op.or]: { email, username } } });
@@ -27,9 +27,6 @@ export class AccountService {
     }
 
     async register(data: RegisterDTO) {
-for (const key in data) {
-    
-}
         // find user by email or username
         let user = await User.findOne({ where: { [Op.or]: { email: data.email || '', username: data.username || '' } } });
 
